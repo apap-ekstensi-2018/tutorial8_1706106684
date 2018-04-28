@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="html_header">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title th:text="${pageTitle} ? ${pageTitle} : 'Tutorial08 APAP'"></title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/sticky-footer-navbar.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#student-table').dataTable();
+            $('.npm-search-form').on('submit', function() {
+                document.location.href = 'http://localhost:8080/student/view/' + $('.npm-search').val();
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="nav-item">
+                        <a class="nav-link" href="/admin/student/viewall">View All Student</a>
+                    </li>
+                    <li th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="nav-item">
+                        <a class="nav-link" href="/admin/student/add">Add Student</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0 npm-search-form">
+                    <input class="form-control mr-sm-2 npm-search" type="text" placeholder="View by NPM" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0 search-button" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main th:fragment="login-info" th:if="${#httpServletRequest.isUserInRole('ADMIN') or #httpServletRequest.isUserInRole('USER')}" role="main" class="container">
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-6">
+                <p th:text="'Login as ' + ${#httpServletRequest.remoteUser}">Login as</p>
+            </div>
+            <div class="col-md-6" style="text-align: right;">
+                <form th:action="@{/logout}" method="post">
+                    <input class="btn btn-sm btn-danger" type="submit" value="Sign Out" />
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer th:fragment="footer" class="footer">
+        <div class="container">
+            <span class="text-muted">Mata Kuliah APAP</span>
+        </div>
+    </footer>
+</body>
+</html>

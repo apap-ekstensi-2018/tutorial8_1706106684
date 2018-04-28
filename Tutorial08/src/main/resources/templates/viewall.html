@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/fragment :: html_header"></head>
+
+<body>
+    <header th:replace="fragments/fragment :: header"></header>
+    <main th:replace="fragments/fragment :: login-info"></main>
+    <main role="main" class="container" style="padding-top: 0px !important;">
+        <h1 class="mt-5">All Students</h1>
+        <table id="student-table" class="table">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>NPM</th>
+                <th>Name</th>
+                <th>GPA</th>
+                <th>GPA Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student, iterationStatus: ${students}">
+                <td th:text="${iterationStatus.count}">No</td>
+                <td th:text="${student.npm}">NPM</td>
+                <td th:text="${student.name}">Name</td>
+                <td th:text="${student.gpa}">GPA</td>
+                <td th:text="${student.gpa} >= 3.49 ? 'Cum Laude!' : 'Sangat Memuaskan!'">GPA Status</td>
+                <td>
+                    <a th:href="'/admin/student/update/' + ${student.npm}" class="btn btn-primary"> Update Data</a>
+                    <a th:href="'/admin/student/delete/' + ${student.npm}" class="btn btn-danger"> Delete Data</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer th:replace="fragments/fragment :: footer"></footer>
+</body>
+</html>
